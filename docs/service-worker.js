@@ -25,8 +25,8 @@ var resourcesToCache = [
     'icons/ms-icon-310x310.png',
     'icons/ms-icon-70x70.png',
     'https://cdn.polyfill.io/v2/polyfill.js?features=es6,fetch',
-    'https://whitetigle.github.io/fable-pwa/index.html',
-    'https://whitetigle.github.io/fable-pwa/bundle.js'
+    '/index.html',
+    '/bundle.js'
 ];
 
 self.addEventListener('install', function(event) {
