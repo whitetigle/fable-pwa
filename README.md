@@ -71,7 +71,7 @@ You can read [awesome doc on Mozilla's site](https://developer.mozilla.org/en-US
 But I will try to sum things up for you here.
 Basically, let's say a service Worker allows you to
 
-1. to manage your cache 
+1. to manage your cache and allow offline use of your app
 2. proxy all outgoing request
 
 ### service-worker.js
