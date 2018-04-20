@@ -239,6 +239,16 @@ If you don't do that, you'll end up screaming because you don't see your changes
 
 The same goes when you want to update your app: disable Service Worker, make your changes, test them and then when you're done, uncomment your registration code.
 
+#### Fable and webpack
+
+When you develop using the watch mode (localhost:8080), changes in your ``service-worker.js`` file won't be reflected unless you stop webpack.
+
+To avoid this behaviour, we add the following line to ``App.fs``, so that the service-worker file gets watched too.
+
+```f#
+importAll "../docs/service-worker.js"
+```
+
 ### 2. Avoid localhost:8080 nightmare
 
 Dy default, we use ``localhost:8080`` to work on our fable apps. If you decide to work on a new project, you may experience something weird: you actually see the last project you were working on!
@@ -246,7 +256,7 @@ Dy default, we use ``localhost:8080`` to work on our fable apps. If you decide t
 Because, as you now understand, once it's started, **a Serice Worker will remain alive until you actually unregister it.**
 
 So it means it will outlive your development cycle and remain there forever **at the address you hosted it to**.
-Don't be afraid. Relax. Just unregister yuor service worker it and now you can see your actual project on screen.
+Don't be afraid. Relax. Just unregister your service worker it, refresh and now you can see your actual project on screen.
 
 ### 3. Unregister a service worker
 
@@ -260,6 +270,12 @@ It's easy:
 It's not really linked to PWAs but if you're using Firefox, use its great [WebIDE](https://developer.mozilla.org/en-US/docs/Tools/WebIDE) which will help you understand what's goin on on your remote device by making the whole developer console available on your desktop.
 
 It's called Remote Debugging and you should definitely use it!
+
+### 5. sync your static needs
+
+If you load things from ``index.html``, make sure the assets you're loading are reflected in your ``service-worker.js`` file in the resourcesToCache list.
+
+> For instance don't call ``<script src="greatJSLib.js"></script>`` in your index.html and ``greatJSLib.min.js`` in your cache list or else it will cache a file you won't be using!
 
 # Try the live sample!
 
@@ -319,6 +335,23 @@ var resourcesToCache = [
     '/bundle.js'
 ];
 ```
+### Change watched file for webpack dev server
+
+Simply change this:
+
+```f#
+importAll "../docs/service-worker.js"
+```
+
+to 
+
+```f#
+importAll "../public/service-worker.js"
+```
+
+or any path so that the service-worker gets watched.
+
+> **Remember**: changes won't take any effect unless you change the cache version number in ``service-worker.js``
 
 # To be continued
 I will definitely update this project with latest news and information I get from my ongoing PWA projects.

@@ -4,6 +4,10 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
 
+// force watching of serviceworker.js by webpack
+// see README.md for more information
+importAll "../docs/service-worker.js"
+
 let init() =
     let canvas = Browser.document.getElementsByTagName_canvas().[0]
     canvas.width <- 1000.
