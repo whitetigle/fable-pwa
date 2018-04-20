@@ -19,7 +19,7 @@ Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](
       - [1.4.5. register-service-worker.js](#145-register-service-workerjs)
         - [1.4.5.1. Fable/F# way](#1451-fablef-way)
         - [1.4.5.2. Classic JS approach](#1452-classic-js-approach)
-  - [1.5. Life of a web service](#15-life-of-a-web-service)
+  - [1.5. Life of a Service Worker](#15-life-of-a-service-worker)
     - [1.5.1. Offline first](#151-offline-first)
     - [1.5.2. Hey, I did that but my display just did not update!](#152-hey-i-did-that-but-my-display-just-did-not-update)
   - [1.6. Security considerations](#16-security-considerations)
@@ -216,7 +216,7 @@ if ('serviceWorker' in navigator) {
 
 > If we take alook at [CanIUse](https://caniuse.com/#feat=serviceworkers)  I think we can safely assume that service workers are now taken care of in every modern browsers.
 
-## 1.5. Life of a web service
+## 1.5. Life of a Service Worker
 
 There are many great articles to read about ServiceWorkers and Progressive Web Apps. There's especially something which you should be aware of:
 
