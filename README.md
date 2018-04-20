@@ -261,9 +261,22 @@ It's not really linked to PWAs but if you're using Firefox, use its great [WebID
 
 It's called Remote Debugging and you should definitely use it!
 
-# Update this sample to your needs
+# Try the live sample!
 
-## From docs to public
+Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](https://whitetigle.github.io/fable-pwa/)
+
+## Check how it works
+
+If you use chrome, just open the Developer Tools and click on the ``Application`` tab. There you'll see:
+
+1. your Service Worker 
+2. the possible errors encountered while fetching data.
+
+If you get some errors, go to the ``Network`` tab and check what's going there. It's often a problem with ressources we can't load for whatever reason (often CORS).
+
+## Update this sample to your needs
+
+### From docs to public
 The current project will build to the ``docs`` folder to enable GitHub hosting.
 
 Don't forget to modify the ``webpack.config.js file`` like this in order to allow the building of ``bundle.js`` into the public folder:
@@ -280,7 +293,7 @@ to
 var outputFolder = "./public";
 ```
 
-## cache path
+### Cache paths
 If you pick a look at the resourcesCache variable in ``service-worker.js``, you'll see that I've added ``/fable-pwa/`` in front of my ressources. 
 
 ```js
