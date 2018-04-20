@@ -2,6 +2,8 @@
 
 Ok so you want to build a Progressive Web application using [Fable](http://fable.io/)? Then you're in the right place!
 
+Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](https://whitetigle.github.io/fable-pwa/)
+
 ## Requirements
 
 * [dotnet SDK](https://www.microsoft.com/net/download/core) 2.0 or higher
