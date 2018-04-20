@@ -1,10 +1,50 @@
-# Fable Simple PWA
+# 1. Fable Simple PWA
 
 Ok so you want to build a Progressive Web application using [Fable](http://fable.io/)? Then you're in the right place!
 
 Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](https://whitetigle.github.io/fable-pwa/)
 
-## Requirements
+## 1.1. Table of contents
+<!-- TOC -->
+
+- [1. Fable Simple PWA](#1-fable-simple-pwa)
+  - [1.1. Table of contents](#11-table-of-contents)
+  - [1.2. Requirements](#12-requirements)
+  - [1.3. Build & Run](#13-build--run)
+  - [1.4. How it works](#14-how-it-works)
+    - [1.4.2. manifest.webmanifest](#142-manifestwebmanifest)
+    - [1.4.3. Service Workers](#143-service-workers)
+      - [1.4.4. service-worker.js](#144-service-workerjs)
+        - [1.4.4.1. What's inside](#1441-whats-inside)
+      - [1.4.5. register-service-worker.js](#145-register-service-workerjs)
+        - [1.4.5.1. Fable/F# way](#1451-fablef-way)
+        - [1.4.5.2. Classic JS approach](#1452-classic-js-approach)
+  - [1.5. Life of a web service](#15-life-of-a-web-service)
+    - [1.5.1. Offline first](#151-offline-first)
+    - [1.5.2. Hey, I did that but my display just did not update!](#152-hey-i-did-that-but-my-display-just-did-not-update)
+  - [1.6. Security considerations](#16-security-considerations)
+      - [1.6.0.1. Prepare your SSL certificate.](#1601-prepare-your-ssl-certificate)
+      - [1.6.0.2. CORS](#1602-cors)
+      - [1.6.0.3. Foreign fetch](#1603-foreign-fetch)
+      - [1.6.0.4. Modern Internet](#1604-modern-internet)
+  - [1.7. Development guidelines](#17-development-guidelines)
+    - [1.7.1. Use Service workers ONLY when you need them](#171-use-service-workers-only-when-you-need-them)
+      - [1.7.1.1. Fable and webpack](#1711-fable-and-webpack)
+    - [1.7.2. Avoid localhost:8080 nightmare](#172-avoid-localhost8080-nightmare)
+    - [1.7.3. Unregister a service worker](#173-unregister-a-service-worker)
+    - [1.7.4. Remotely debug your web app](#174-remotely-debug-your-web-app)
+    - [1.7.5. sync your static needs](#175-sync-your-static-needs)
+- [2. Try the live sample!](#2-try-the-live-sample)
+  - [2.1. Check how it works](#21-check-how-it-works)
+  - [2.2. Update this sample to your needs](#22-update-this-sample-to-your-needs)
+    - [2.2.1. From docs to public](#221-from-docs-to-public)
+    - [2.2.2. Cache paths](#222-cache-paths)
+    - [2.2.3. Change watched file for webpack dev server](#223-change-watched-file-for-webpack-dev-server)
+- [3. To be continued](#3-to-be-continued)
+
+<!-- /TOC -->
+
+## 1.2. Requirements
 
 * [dotnet SDK](https://www.microsoft.com/net/download/core) 2.0 or higher
 * [node.js](https://nodejs.org) 6.11 or higher
@@ -12,7 +52,7 @@ Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](
 
 Although is not a Fable requirement, on macOS and Linux you'll need [Mono](http://www.mono-project.com/) for other F# tooling like Paket or editor support.
 
-## Build & Run
+## 1.3. Build & Run
 
 * Install JS dependencies: `yarn install`
 * **Move to `src` folder**: `cd src`
@@ -26,7 +66,7 @@ If you are using VS Code + [Ionide](http://ionide.io/), you can also use the key
 
 Any modification you do to the F# code will be reflected in the web page after saving. When you want to output the JS code to disk, run `dotnet fable yarn-build` and you'll get a minified JS bundle in the `public` folder.
 
-## How it works
+## 1.4. How it works
 
 Let's say that a Progressive Web Application is simply a web app you want your user to access at the best conditions: obviously making it more responsive thanks to caching strategies for instance. 
 
@@ -36,17 +76,9 @@ For instance on Android, a shortcut will be added and then when the use taps on 
 
 So your web site/app will run just like a **native app** with its icon and all.
 
-### So The App Shell approach allows websites to be:
+(More information from [Mozilla documentation](https://developer.mozilla.org/en-US/Apps/Progressive))
 
-- **Linkable**: Even if it behaves like a native app, it is still a website — you can click on the links within the page and send a URL to someone if you want to share it.
-
-- **Progressive**: Start with the "good, old basic website” and progressively add new features while remembering to detect if they are available in the browser and gracefully handle any errors that crop up if support is not available. For example, an offline mode with the help of service workers is just an extra trait that will make your website experience better, but it's still perfectly usable without it.
-
-- **Responsive**: Responsive Web Design also applies to Progressive Web Apps, as both are mainly for mobile. There are so many varied devices with browsers — it's important to prepare your website so it works on different screen sizes, viewports or pixel densities, using technologies like viewport meta tag, CSS media queries, Flexbox, and CSS Grid.
-
-(Extracts from [Mozilla documentation](https://developer.mozilla.org/en-US/Apps/Progressive))
-
-### manifest.webmanifest
+### 1.4.2. manifest.webmanifest
 
 The manifest file is a JSON file that allosw you to control how your app appears to the user. It's pretty easy to understand.
 
@@ -63,7 +95,7 @@ The manifest file is a JSON file that allosw you to control how your app appears
 
 There are other fields you can add and which are very well documented [here](https://developer.mozilla.org/en-US/docs/Web/Manifest)
 
-### Service Workers
+### 1.4.3. Service Workers
 
 Enter our nice workers that make the magic possible.
 You can read [awesome doc on Mozilla's site](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
@@ -74,7 +106,7 @@ Basically, let's say a service Worker allows you to
 1. to manage your cache and allow offline use of your app
 2. proxy all outgoing request
 
-### service-worker.js
+#### 1.4.4. service-worker.js
 
 So, the ``service-worker.js`` file is where all the plumbing happens:
 
@@ -82,7 +114,7 @@ So, the ``service-worker.js`` file is where all the plumbing happens:
 2. **activate the worker**: once it's up and running, the web worker will update its cache only when we tell him to do so, meaning when we change the cache name for instance.
 3. **handle events**: there are several events that can be handled by the worker. The most known being the fetch event which will gracefully allow your app to make its call to, let's say, your server or CDNs.
 
-#### What's inside
+##### 1.4.4.1. What's inside
 **A cache name**: 
 
 ```js
@@ -114,11 +146,11 @@ self.addEventListener('fetch', function(event) {...
 
 Now we only need to register our ``service-worker.js`` file to make it working.
 
-### register-service-worker.js
+#### 1.4.5. register-service-worker.js
 
 There are two ways of doing that.
 
-#### Fable/F# way 
+##### 1.4.5.1. Fable/F# way 
  **Important**: this is not yet possible with current version of Fable.Import
   
   It should like this in ``App.fs``:
@@ -152,7 +184,7 @@ and
 ```
 
 
-#### Classic JS approach
+##### 1.4.5.2. Classic JS approach
 
 or the js way which implies 2 things:
 
@@ -184,18 +216,18 @@ if ('serviceWorker' in navigator) {
 
 > If we take alook at [CanIUse](https://caniuse.com/#feat=serviceworkers)  I think we can safely assume that service workers are now taken care of in every modern browsers.
 
-## Life of a web service
+## 1.5. Life of a web service
 
 There are many great articles to read about ServiceWorkers and Progressive Web Apps. There's especially something which you should be aware of:
 
-### Offline first
+### 1.5.1. Offline first
 
 Now you've installed your Service Worker, it will always be there making sure everything's running smooth without any Internet connection.
 What does it mean? Well it means that you nay not see anything changing the next time you update your app. Why? Because it's been cached already. So here is the most important things you should always do:
 
 > **service-worker.js**: Change the cache label/version number 
 
-### Hey, I did that but my display just did not update!
+### 1.5.2. Hey, I did that but my display just did not update!
 
 Yes, because you will have to **force the service worker to update** and **you can't do it just by hitting the refresh button of your browser.**.
 
@@ -207,31 +239,31 @@ So update your app, change your cache version number, close all your tabs to kil
 **Reload**: now you've got your new version available.
 There are other strategies, but I won't dig into the details here. Please read [this](https://redfin.engineering/service-workers-break-the-browsers-refresh-button-by-default-here-s-why-56f9417694) and [this](https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68) if you want more information. (It's worth the read!)
 
-## Security considerations
+## 1.6. Security considerations
 
-#### Prepare your SSL certificate.
+#### 1.6.0.1. Prepare your SSL certificate.
 PWA work only through https. Period. 
 On your desktop browser you won't really get problems with SSL certificates because it will try to load any missing part.
 But on the mobile side, you will if you the certificates you provide are not complete: you absolutely need a **FULL and VALID certificate**.
 
 So go on a SSL test site like this [one](https://www.ssllabs.com/ssltest/) and make sure your certificate passes the tests.
 
-#### CORS
+#### 1.6.0.2. CORS
 Since you will make remote calls using fetch, you'll probably end up with CORS issues.
 So prepare your servers, load balancers and all to handle cross origin requests.
 
-#### Foreign fetch
+#### 1.6.0.3. Foreign fetch
 I have not yet taken time to dig into that, but Foreign Fetch should be there to help avoir cross origin related problems.
 
-#### Modern Internet
+#### 1.6.0.4. Modern Internet
 
 Well it should be a surprise for a web developer but now that browser vendors are deprecating http requests in favor of https, the whole pipeline must be ready for that :)
 
-## Development guidelines
+## 1.7. Development guidelines
 
 There are a few things you should know to avoid losing too much time solving issues during your development with Fable.
 
-### 1. Use Service workers ONLY when you need them
+### 1.7.1. Use Service workers ONLY when you need them
 
 Just code your app, update, test it with your ``dotnet fable yarn-start`` like you would usually do and enable/register your service worker only when you actually need to use/test it.
 
@@ -239,7 +271,7 @@ If you don't do that, you'll end up screaming because you don't see your changes
 
 The same goes when you want to update your app: disable Service Worker, make your changes, test them and then when you're done, uncomment your registration code.
 
-#### Fable and webpack
+#### 1.7.1.1. Fable and webpack
 
 When you develop using the watch mode (localhost:8080), changes in your ``service-worker.js`` file won't be reflected unless you stop webpack.
 
@@ -249,7 +281,7 @@ To avoid this behaviour, we add the following line to ``App.fs``, so that the se
 importAll "../docs/service-worker.js"
 ```
 
-### 2. Avoid localhost:8080 nightmare
+### 1.7.2. Avoid localhost:8080 nightmare
 
 Dy default, we use ``localhost:8080`` to work on our fable apps. If you decide to work on a new project, you may experience something weird: you actually see the last project you were working on!
 
@@ -258,30 +290,30 @@ Because, as you now understand, once it's started, **a Serice Worker will remain
 So it means it will outlive your development cycle and remain there forever **at the address you hosted it to**.
 Don't be afraid. Relax. Just unregister your service worker it, refresh and now you can see your actual project on screen.
 
-### 3. Unregister a service worker
+### 1.7.3. Unregister a service worker
 
 It's easy:
 
 1. *Chrome*: go to the Application tab and unregister the service worker
 2. *Firefox*: browse to [about:serviceworkers](about:serviceworkers) and there you'll be able to unregister them
 
-### 4. Remotely debug your web app
+### 1.7.4. Remotely debug your web app
 
 It's not really linked to PWAs but if you're using Firefox, use its great [WebIDE](https://developer.mozilla.org/en-US/docs/Tools/WebIDE) which will help you understand what's goin on on your remote device by making the whole developer console available on your desktop.
 
 It's called Remote Debugging and you should definitely use it!
 
-### 5. sync your static needs
+### 1.7.5. sync your static needs
 
 If you load things from ``index.html``, make sure the assets you're loading are reflected in your ``service-worker.js`` file in the resourcesToCache list.
 
 > For instance don't call ``<script src="greatJSLib.js"></script>`` in your index.html and ``greatJSLib.min.js`` in your cache list or else it will cache a file you won't be using!
 
-# Try the live sample!
+# 2. Try the live sample!
 
 Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](https://whitetigle.github.io/fable-pwa/)
 
-## Check how it works
+## 2.1. Check how it works
 
 If you use chrome, just open the Developer Tools and click on the ``Application`` tab. There you'll see:
 
@@ -290,9 +322,9 @@ If you use chrome, just open the Developer Tools and click on the ``Application`
 
 If you get some errors, go to the ``Network`` tab and check what's going there. It's often a problem with ressources we can't load for whatever reason (often CORS).
 
-## Update this sample to your needs
+## 2.2. Update this sample to your needs
 
-### From docs to public
+### 2.2.1. From docs to public
 The current project will build to the ``docs`` folder to enable GitHub hosting.
 
 Don't forget to modify the ``webpack.config.js file`` like this in order to allow the building of ``bundle.js`` into the public folder:
@@ -309,7 +341,7 @@ to
 var outputFolder = "./public";
 ```
 
-### Cache paths
+### 2.2.2. Cache paths
 If you pick a look at the resourcesCache variable in ``service-worker.js``, you'll see that I've added ``/fable-pwa/`` in front of my ressources. 
 
 ```js
@@ -335,7 +367,7 @@ var resourcesToCache = [
     '/bundle.js'
 ];
 ```
-### Change watched file for webpack dev server
+### 2.2.3. Change watched file for webpack dev server
 
 Simply change this:
 
@@ -353,6 +385,6 @@ or any path so that the service-worker gets watched.
 
 > **Remember**: changes won't take any effect unless you change the cache version number in ``service-worker.js``
 
-# To be continued
+# 3. To be continued
 I will definitely update this project with latest news and information I get from my ongoing PWA projects.
 Thanks for reading and have fun deploying your pwa app!
