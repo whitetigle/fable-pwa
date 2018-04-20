@@ -2,6 +2,7 @@ module MyPWA
 
 open Fable.Core
 open Fable.Core.JsInterop
+open Fable.PowerPack
 open Fable.Import
 
 // force watching of serviceworker.js by webpack
@@ -20,4 +21,18 @@ let init() =
     ctx.fillStyle <- !^"rgba(0, 0, 200, 0.5)"
     ctx.fillRect (30., 30., 55., 50.)
 
-init()
+// start our app only if our service worker registered well
+promise {
+
+    try
+      // register service worker
+      // serviceURL is relative to the runtime bundle location
+      let! _ =  Browser.navigator.serviceWorker.register "/service-worker.js"
+
+      // start app only if we can use the service worker
+      init()
+    
+    with exn -> printfn "%s" exn.Message
+}
+|> Promise.start
+

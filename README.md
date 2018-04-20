@@ -155,9 +155,8 @@ Now we only need to register our ``service-worker.js`` file to make it working.
 There are two ways of doing that.
 
 ##### 1.4.2.2.1. Fable/F# way 
- **Important**: this is not yet possible with current version of Fable.Import
-  
-  It should like this in ``App.fs``:
+
+  We can simply register the service worker file from ``App.fs``:
 
 ```fsharp
 
