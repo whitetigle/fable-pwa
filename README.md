@@ -261,8 +261,9 @@ It's not really linked to PWAs but if you're using Firefox, use its great [WebID
 
 It's called Remote Debugging and you should definitely use it!
 
-# Misc information
+# Update this sample to your needs
 
+## From docs to public
 The current project will build to the ``docs`` folder to enable GitHub hosting.
 
 Don't forget to modify the ``webpack.config.js file`` like this in order to allow the building of ``bundle.js`` into the public folder:
@@ -279,6 +280,32 @@ to
 var outputFolder = "./public";
 ```
 
+## cache path
+If you pick a look at the resourcesCache variable in ``service-worker.js``, you'll see that I've added ``/fable-pwa/`` in front of my ressources. 
+
+```js
+var resourcesToCache = [
+    '/fable-pwa/',
+    'icons/android-icon-144x144.png',
+    ...
+    'https://cdn.polyfill.io/v2/polyfill.js?features=es6,fetch',
+    '/fable-pwa/index.html',
+    '/fable-pwa/bundle.js'
+];
+```
+
+So just remove these in order to get the sample working on your host:
+
+```js
+var resourcesToCache = [
+    '/',
+    'icons/android-icon-144x144.png',
+    ...
+    'https://cdn.polyfill.io/v2/polyfill.js?features=es6,fetch',
+    '/index.html',
+    '/bundle.js'
+];
+```
 
 # To be continued
 I will definitely update this project with latest news and information I get from my ongoing PWA projects.

@@ -1,7 +1,7 @@
 var CACHE_NAME = 'my-fable-app-cache-0.1';
 
 var resourcesToCache = [
-    '/',
+    '/fable-pwa/',
     'icons/android-icon-144x144.png',
     'icons/android-icon-192x192.png',
     'icons/android-icon-36x36.png',
