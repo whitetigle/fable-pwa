@@ -94,10 +94,13 @@ var CACHE_NAME = 'my-fable-app-cache-0.1';
 ```js
 var resourcesToCache = [
     '/',
+    'https://cdn.polyfill.io/v2/polyfill.js?features=es6,fetch',    
     '/index.html',
     '/bundle.js'
 ];
 ```
+
+In this list you should add all the local and remote assets you would need and you'd like to cache.
 
 **Our plumbing event listeners**: 
 

@@ -24,6 +24,7 @@ var resourcesToCache = [
     'icons/ms-icon-150x150.png',
     'icons/ms-icon-310x310.png',
     'icons/ms-icon-70x70.png',
+    'https://cdn.polyfill.io/v2/polyfill.js?features=es6,fetch',
     '/index.html',
     '/bundle.js'
 ];
