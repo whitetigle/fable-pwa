@@ -4,6 +4,10 @@ Ok so you want to build a Progressive Web application using [Fable](http://fable
 
 Grab your mobile phone and browse to: [https://whitetigle.github.io/fable-pwa/](https://whitetigle.github.io/fable-pwa/)
 
+Or scan 
+
+![QRCode](qrcode.png)
+
 ## 1.1. Table of contents
 <!-- TOC -->
 
